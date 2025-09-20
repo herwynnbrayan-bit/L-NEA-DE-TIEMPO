@@ -1,0 +1,7 @@
+/* En styles.css - Variables CSS */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #tu-color1, #tu-color2);
+    --accent-color: #tu-color-acento;
+    --bg-primary: #tu-background;
+}

@@ -1,0 +1,9 @@
+# Instalar Vercel CLI
+npm i -g vercel
+
+# En tu carpeta del proyecto
+vercel
+
+# Seguir las instrucciones
+# Para producción:
+vercel --prod
