@@ -1,0 +1,557 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Evolución Completa de las Computadoras - Timeline Interactivo</title><style>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d1b69 50%, #1a1f3a 75%, #0a0e27 100%);
+    color: #ffffff;
+    overflow-x: auto;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(119, 198, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.header h1 {
+    font-size: 3.5em;
+    font-weight: 800;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffc93c);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+    margin-bottom: 15px;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes gradientShift {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.header p {
+    font-size: 1.4em;
+    color: #b8c5d6;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.timeline-wrapper {
+    position: relative;
+    margin: 60px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #ff6b6b 0%, #4ecdc4 20%, #45b7d1 40%, #96ceb4 60%, #ffc93c 80%, #ff8a80 100%);
+    border-radius: 3px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.era-section {
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.era-header {
+    text-align: center;
+    margin-bottom: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.era-title {
+    font-size: 2.8em;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+}
+
+.era-subtitle {
+    font-size: 1.3em;
+    color: #a0b4c8;
+    font-weight: 300;
+}
+
+.timeline-event {
+    display: flex;
+    align-items: flex-start;
+    margin: 50px 0;
+    position: relative;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: slideInUp 0.8s ease-out forwards;
+}
+
+.timeline-event:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.timeline-event:nth-child(even) .event-content {
+    text-align: right;
+}
+
+.timeline-event:nth-child(even) .specs-section {
+    text-align: left;
+}
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.date-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.3em;
+    min-width: 140px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 10;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.event-content {
+    flex: 1;
+    margin: 0 50px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.event-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.event-content:hover::before {
+    opacity: 1;
+}
+
+.event-content:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.event-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.event-subtitle {
+    font-size: 1.1em;
+    color: #4ecdc4;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.event-description {
+    font-size: 1.1em;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: #e1e8f0;
+}
+
+.specs-section {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 25px;
+    border-left: 4px solid #4ecdc4;
+    backdrop-filter: blur(10px);
+}
+
+.specs-title {
+    color: #4ecdc4;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.specs-title::before {
+    content: "⚡";
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.specs-list {
+    list-style: none;
+    padding: 0;
+}
+
+.specs-list li {
+    padding: 8px 0;
+    color: #ffffff;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+}
+
+.specs-list li::before {
+    content: "▸";
+    color: #4ecdc4;
+    font-weight: bold;
+    margin-right: 12px;
+    font-size: 1.1em;
+}
+
+.innovation-tags {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.innovation-tag {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.9em;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.generation-transition {
+    text-align: center;
+    margin: 100px 0;
+    position: relative;
+}
+
+.generation-transition::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #4ecdc4, #45b7d1, #4ecdc4, transparent);
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+}
+
+.generation-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-size: 1.4em;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.impact-indicator {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+    }
+}
+
+.performance-chart {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.performance-bar {
+    height: 8px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+    margin: 5px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.performance-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        left: 100%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .timeline-line {
+        left: 30px;
+    }
+    .timeline-event {
+        flex-direction: column !important;
+        margin-left: 80px;
+        align-items: stretch;
+    }
+    .timeline-event .event-content {
+        text-align: left !important;
+        margin: 20px 0 0 0;
+    }
+    .date-badge {
+        position: absolute;
+        left: -60px;
+        margin: 0;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        min-width: auto;
+        padding: 20px 15px;
+    }
+    .header h1 {
+        font-size: 2.5em;
+    }
+    .event-content {
+        margin: 20px 0 0 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 10px;
+    }
+    .header {
+        padding: 25px;
+    }
+    .header h1 {
+        font-size: 2em;
+    }
+    .era-title {
+        font-size: 2.2em;
+    }
+    .event-title {
+        font-size: 1.6em;
+    }
+}
+
+</style></head><body><div class="container"><div class="header"><h1>EVOLUCIÓN COMPLETA DE LAS COMPUTADORAS</h1><p>Timeline Interactivo | Desde Dispositivos Mecánicos hasta la Era Digital Moderna</p></div><div class="timeline-wrapper"><div class="timeline-line"></div><!-- ERA PRE-ELECTRÓNICA --><div class="era-section"><div class="era-header"><h2 class="era-title">ERA PRE-ELECTRÓNICA</h2><p class="era-subtitle">1600 - 1940 | Fundamentos Mecánicos de la Computación</p></div><div class="timeline-event" style="animation-delay: 0.2s"><div class="date-badge">1642</div><div class="event-content"><h3 class="event-title">Pascalina</h3><p class="event-subtitle">Blaise Pascal | Francia</p><p class="event-description">Primera calculadora mecánica funcional de la historia. Revolucionó el concepto de automatización aritmética mediante un ingenioso sistema de engranajes y ruedas dentadas interconectadas. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Técnicas</h4><ul class="specs-list"><li><strong>Sistema numérico:</strong>Decimal puro (base 10)</li><li><strong>Operaciones:</strong>Suma y resta automática con acarreo</li><li><strong>Mecanismo:</strong>8 ruedas dentadas sincronizadas</li><li><strong>Material:</strong>Latón,
+hierro forjado y madera de roble</li><li><strong>Precisión:</strong>6-8 dígitos decimales</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Automatización Aritmética</span><span class="innovation-tag">Carry Mechanism</span></div><div class="impact-indicator">1</div></div></div><div class="timeline-event" style="animation-delay: 0.4s"><div class="date-badge">1673</div><div class="event-content"><h3 class="event-title">Calculadora de Leibniz</h3><p class="event-subtitle">Gottfried Wilhelm Leibniz | Alemania</p><p class="event-description">Primera máquina capaz de realizar las cuatro operaciones básicas. Introdujo el cilindro de Leibniz,
+mecanismo que influyó en calculadoras mecánicas durante dos siglos. </p><div class="specs-section"><h4 class="specs-title">Innovaciones Clave</h4><ul class="specs-list"><li><strong>Operaciones:</strong>Suma,
+resta,
+multiplicación,
+división</li><li><strong>Mecanismo:</strong>Cilindro escalonado (Stepped Reckoner)</li><li><strong>Innovación:</strong>Multiplicación por sumas repetidas</li><li><strong>Influencia:</strong>Base de calculadoras hasta 1970s</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Cuatro Operaciones</span><span class="innovation-tag">Cilindro Escalonado</span></div><div class="impact-indicator">2</div></div></div><div class="timeline-event" style="animation-delay: 0.6s"><div class="date-badge">1822</div><div class="event-content"><h3 class="event-title">Máquina Diferencial</h3><p class="event-subtitle">Charles Babbage | Inglaterra</p><p class="event-description">Primer intento de crear un computador automático para cálculos complejos. Aunque nunca completada en vida de Babbage,
+estableció principios fundamentales de la computación automática. </p><div class="specs-section"><h4 class="specs-title">Especificaciones de Diseño</h4><ul class="specs-list"><li><strong>Método:</strong>Diferencias finitas polinomiales</li><li><strong>Precisión:</strong>20 dígitos decimales</li><li><strong>Componentes:</strong>25,
+000 piezas mecánicas de bronce</li><li><strong>Peso estimado:</strong>15 toneladas</li><li><strong>Aplicación:</strong>Tablas astronómicas y navegación</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Computación Automática</span><span class="innovation-tag">Alta Precisión</span></div><div class="impact-indicator">3</div></div></div><div class="timeline-event" style="animation-delay: 0.8s"><div class="date-badge">1837</div><div class="event-content"><h3 class="event-title">Máquina Analítica</h3><p class="event-subtitle">Charles Babbage & Ada Lovelace | Inglaterra</p><p class="event-description">Primer diseño de computador programable universal. Ada Lovelace desarrolló el primer algoritmo computacional y visionó aplicaciones más allá del cálculo numérico. </p><div class="specs-section"><h4 class="specs-title">Arquitectura Revolucionaria</h4><ul class="specs-list"><li><strong>Mill:</strong>Unidad Aritmética y Lógica (ALU precursora)</li><li><strong>Store:</strong>Memoria de datos (1, 000 palabras de 50 dígitos)</li><li><strong>Control:</strong>Unidad de control con secuenciación</li><li><strong>I/O:</strong>Tarjetas perforadas y impresora automática</li><li><strong>Programación:</strong>Loops,
+condicionales,
+subrutinas</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Programación</span><span class="innovation-tag">Arquitectura Moderna</span><span class="innovation-tag">Primer Algoritmo</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 1.0s"><div class="date-badge">1890</div><div class="event-content"><h3 class="event-title">Máquina Tabuladora</h3><p class="event-subtitle">Herman Hollerith | Estados Unidos</p><p class="event-description">Primer sistema de procesamiento masivo de datos usando tarjetas perforadas. Revolucionó el manejo de información estadística y fundó las bases tecnológicas de IBM. </p><div class="specs-section"><h4 class="specs-title">Capacidades de Procesamiento</h4><ul class="specs-list"><li><strong>Velocidad:</strong>50-80 tarjetas perforadas por minuto</li><li><strong>Capacidad:</strong>240 variables por tarjeta</li><li><strong>Tecnología:</strong>Sistema eléctrico-mecánico</li><li><strong>Éxito:</strong>Censo USA 1890 completado en 6 semanas</li><li><strong>Impacto:</strong>Reducción de 10 años a 6 semanas</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Big Data Primitivo</span><span class="innovation-tag">Procesamiento Masivo</span></div><div class="impact-indicator">8</div></div></div></div><div class="generation-transition"><div class="generation-badge">Transición a Era Electrónica</div></div><!-- PRIMERA GENERACIÓN --><div class="era-section"><div class="era-header"><h2 class="era-title">PRIMERA GENERACIÓN</h2><p class="era-subtitle">1940 - 1956 | Tubos de Vacío y Electrónica Digital</p></div><div class="timeline-event" style="animation-delay: 1.2s"><div class="date-badge">1941</div><div class="event-content"><h3 class="event-title">Z3</h3><p class="event-subtitle">Konrad Zuse | Alemania</p><p class="event-description">Primera computadora totalmente funcional y programable del mundo. Procesador binario con aritmética de punto flotante,
+reconocida posteriormente como Turing-complete. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Técnicas</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>22-bit punto flotante binario</li><li><strong>Memoria:</strong>64 palabras de 22 bits</li><li><strong>Frecuencia:</strong>3-4 Hz de reloj</li><li><strong>Componentes:</strong>2,
+600 relés electromecánicos</li><li><strong>Programación:</strong>Lenguaje Plankalkül</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 15%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Turing-Complete</span><span class="innovation-tag">Binario Flotante</span></div><div class="impact-indicator">9</div></div></div><div class="timeline-event" style="animation-delay: 1.4s"><div class="date-badge">1943</div><div class="event-content"><h3 class="event-title">Colossus</h3><p class="event-subtitle">Tommy Flowers | Reino Unido</p><p class="event-description">Primera computadora electrónica programable. Diseñada para descifrar códigos alemanes durante la Segunda Guerra Mundial. Mantenida en secreto durante décadas. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Militares</h4><ul class="specs-list"><li><strong>Tubos de vacío:</strong>1,
+500 (Colossus I),
+2,
+400 (Colossus II)</li><li><strong>Velocidad:</strong>5,
+000 caracteres por segundo</li><li><strong>Programación:</strong>Switches y cables de conexión</li><li><strong>Aplicación:</strong>Criptoanálisis (Enigma/Lorenz)</li><li><strong>Producción:</strong>10 máquinas construidas</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Criptoanálisis</span><span class="innovation-tag">Electrónica Pura</span></div><div class="impact-indicator">7</div></div></div><div class="timeline-event" style="animation-delay: 1.6s"><div class="date-badge">1946</div><div class="event-content"><h3 class="event-title">ENIAC</h3><p class="event-subtitle">Eckert & Mauchly | Universidad de Pennsylvania</p><p class="event-description">Primera computadora electrónica de propósito general completamente funcional. Marcó el inicio definitivo de la era de las computadoras electrónicas modernas. </p><div class="specs-section"><h4 class="specs-title">Especificaciones de Hardware</h4><ul class="specs-list"><li><strong>Tubos de vacío:</strong>17,
+468 unidades</li><li><strong>Potencia:</strong>150 kW de consumo</li><li><strong>Peso:</strong>30 toneladas</li><li><strong>Velocidad:</strong>5,
+000 operaciones por segundo</li><li><strong>Memoria:</strong>20 acumuladores de 10 dígitos</li><li><strong>Programación:</strong>Reconfiguración física de cables</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 25%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Computación Electrónica</span><span class="innovation-tag">Propósito General</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 1.8s"><div class="date-badge">1948</div><div class="event-content"><h3 class="event-title">Transistor</h3><p class="event-subtitle">Bardeen,
+Brattain & Shockley | Bell Labs</p><p class="event-description">Invención del transistor,
+el componente más importante del siglo XX. Revolución tecnológica que permitió la miniaturización y proliferación de la electrónica digital. </p><div class="specs-section"><h4 class="specs-title">Ventajas Revolucionarias</h4><ul class="specs-list"><li><strong>Tamaño:</strong>1000x más pequeño que tubos de vacío</li><li><strong>Consumo:</strong>90% menos energía</li><li><strong>Confiabilidad:</strong>100x más durable</li><li><strong>Velocidad:</strong>Switching 1000x más rápido</li><li><strong>Costo:</strong>Producción masiva factible</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Revolución Semiconductora</span><span class="innovation-tag">Premio Nobel 1956</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 2.0s"><div class="date-badge">1951</div><div class="event-content"><h3 class="event-title">UNIVAC I</h3><p class="event-subtitle">Eckert-Mauchly Computer Corporation</p><p class="event-description">Primera computadora comercial producida en serie en Estados Unidos. Famosa por predecir correctamente la victoria de Eisenhower en las elecciones de 1952. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Comerciales</h4><ul class="specs-list"><li><strong>Memoria principal:</strong>1,
+000 palabras de 12 caracteres</li><li><strong>Memoria secundaria:</strong>Cinta magnética UNISERVO</li><li><strong>Aritmética:</strong>Decimal con signo</li><li><strong>Precio:</strong>$1,
+000,
+000 USD (1951)</li><li><strong>Producción:</strong>46 unidades vendidas</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Comercialización</span><span class="innovation-tag">Cinta Magnética</span></div><div class="impact-indicator">8</div></div></div></div><div class="generation-transition"><div class="generation-badge">Segunda Generación</div></div><!-- SEGUNDA GENERACIÓN --><div class="era-section"><div class="era-header"><h2 class="era-title">SEGUNDA GENERACIÓN</h2><p class="era-subtitle">1956 - 1963 | Transistores y Miniaturización</p></div><div class="timeline-event" style="animation-delay: 2.2s"><div class="date-badge">1958</div><div class="event-content"><h3 class="event-title">Circuito Integrado</h3><p class="event-subtitle">Jack Kilby (TI) & Robert Noyce (Fairchild)</p><p class="event-description">Desarrollo independiente del circuito integrado. Kilby integró componentes en germanio,
+Noyce desarrolló el proceso planar en silicio que se convirtió en estándar industrial. </p><div class="specs-section"><h4 class="specs-title">Especificaciones del CI</h4><ul class="specs-list"><li><strong>Material:</strong>Silicio (Noyce) / Germanio (Kilby)</li><li><strong>Integración:</strong>Múltiples transistores en sustrato único</li><li><strong>Proceso:</strong>Planar (Noyce) / Mesa (Kilby)</li><li><strong>Tamaño:</strong>Pocos milímetros cuadrados</li><li><strong>Aplicación inicial:</strong>Computadoras militares</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Miniaturización</span><span class="innovation-tag">Integración</span><span class="innovation-tag">Premio Nobel 2000</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 2.4s"><div class="date-badge">1959</div><div class="event-content"><h3 class="event-title">IBM 1401</h3><p class="event-subtitle">IBM Corporation</p><p class="event-description">Primera computadora transistorizada masivamente exitosa. Dominó el mercado comercial de la década de 1960 con su arquitectura innovadora de longitud variable. </p><div class="specs-section"><h4 class="specs-title">Innovaciones Técnicas</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>Longitud variable de palabra (1-16 caracteres)</li><li><strong>Memoria:</strong>4,
+000-16,
+000 caracteres de núcleo magnético</li><li><strong>Velocidad:</strong>193 microsegundos por suma</li><li><strong>Precio:</strong>$125,
+000 - $600,
+000 USD</li><li><strong>Éxito:</strong>12,
+000 unidades instaladas mundialmente</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 35%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Éxito Comercial</span><span class="innovation-tag">Núcleo Magnético</span></div><div class="impact-indicator">9</div></div></div><div class="timeline-event" style="animation-delay: 2.6s"><div class="date-badge">1962</div><div class="event-content"><h3 class="event-title">PDP-1</h3><p class="event-subtitle">Digital Equipment Corporation</p><p class="event-description">Primera minicomputadora interactiva del mundo. Introdujo conceptos de computación personal,
+gráficos interactivos y fue plataforma del primer videojuego: Spacewar! </p><div class="specs-section"><h4 class="specs-title">Especificaciones PDP-1</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>18-bit,
+complemento a dos</li><li><strong>Memoria:</strong>4,
+096 palabras (expandible a 32K)</li><li><strong>Display:</strong>Osciloscopio CRT 1024×1024</li><li><strong>Precio:</strong>$120,
+000 (vs $2M mainframes)</li><li><strong>Innovación:</strong>Interacción en tiempo real</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Interactividad</span><span class="innovation-tag">Gaming Pionero</span><span class="innovation-tag">Gráficos CRT</span></div><div class="impact-indicator">8</div></div></div></div><div class="generation-transition"><div class="generation-badge">Tercera Generación</div></div><!-- TERCERA GENERACIÓN --><div class="era-section"><div class="era-header"><h2 class="era-title">TERCERA GENERACIÓN</h2><p class="era-subtitle">1964 - 1971 | Circuitos Integrados y Estandarización</p></div><div class="timeline-event" style="animation-delay: 2.8s"><div class="date-badge">1964</div><div class="event-content"><h3 class="event-title">IBM System/360</h3><p class="event-subtitle">IBM Corporation</p><p class="event-description">Primera familia de computadoras con compatibilidad de software entre modelos. Estableció estándares arquitectónicos que perduran hasta hoy,
+incluyendo el byte de 8 bits. </p><div class="specs-section"><h4 class="specs-title">Arquitectura System/360</h4><ul class="specs-list"><li><strong>Compatibilidad:</strong>Software ejecutable en diferentes modelos</li><li><strong>Word size:</strong>32-bit addressable,
+byte de 8-bit</li><li><strong>Memoria virtual:</strong>Implementación pionera</li><li><strong>Multiprogramación:</strong>Soporte nativo del OS/360</li><li><strong>Rango:</strong>Desde Model 30 hasta Model 75</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 45%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Arquitectura Estándar</span><span class="innovation-tag">Compatibilidad</span><span class="innovation-tag">Byte 8-bit</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 3.0s"><div class="date-badge">1965</div><div class="event-content"><h3 class="event-title">Ley de Moore</h3><p class="event-subtitle">Gordon Moore | Intel Co-founder</p><p class="event-description">Formulación de la predicción más influyente de la industria tecnológica: duplicación de transistores cada 18-24 meses. Principio rector del desarrollo tecnológico por décadas. </p><div class="specs-section"><h4 class="specs-title">Predicción Original</h4><ul class="specs-list"><li><strong>Período:</strong>Duplicación cada 18-24 meses</li><li><strong>Parámetro:</strong>Densidad de transistores en CI</li><li><strong>Implicación:</strong>Crecimiento exponencial sostenido</li><li><strong>Vigencia:</strong>1965-presente (con modificaciones)</li><li><strong>Extensiones:</strong>Velocidad,
+memoria,
+costo</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Predicción Tecnológica</span><span class="innovation-tag">Roadmap Industry</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 3.2s"><div class="date-badge">1969</div><div class="event-content"><h3 class="event-title">ARPANET</h3><p class="event-subtitle">DARPA | Estados Unidos</p><p class="event-description">Nacimiento de la primera red de computadoras de área amplia. Precursora directa del Internet moderno,
+implementó conmutación de paquetes y protocolos de red fundamentales. </p><div class="specs-section"><h4 class="specs-title">Especificaciones de Red</h4><ul class="specs-list"><li><strong>Protocolo:</strong>Network Control Protocol (NCP)</li><li><strong>Topología:</strong>Conmutación de paquetes distribuida</li><li><strong>Velocidad:</strong>50 kbps líneas dedicadas</li><li><strong>Nodos iniciales:</strong>UCLA,
+Stanford,
+UCSB,
+Utah</li><li><strong>Primer mensaje:</strong>"LO" (LOGIN incompleto)</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Networking</span><span class="innovation-tag">Internet Precursor</span><span class="innovation-tag">Packet Switching</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 3.4s"><div class="date-badge">1970</div><div class="event-content"><h3 class="event-title">Memoria RAM Dinámica</h3><p class="event-subtitle">Intel 1103 | Robert Dennard (IBM)</p><p class="event-description">Primera memoria RAM dinámica comercialmente viable. Revolucionó el almacenamiento de memoria al ofrecer mayor densidad y menor costo que la memoria de núcleo magnético. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Intel 1103</h4><ul class="specs-list"><li><strong>Capacidad:</strong>1,
+024 bits (1 Kbit)</li><li><strong>Tecnología:</strong>DRAM de 3 transistores</li><li><strong>Tiempo de acceso:</strong>300 nanosegundos</li><li><strong>Costo:</strong>1 centavo por bit (vs 1 dólar núcleo)</li><li><strong>Impacto:</strong>Reemplazo del núcleo magnético</li></ul></div><div class="innovation-tags"><span class="innovation-tag">DRAM</span><span class="innovation-tag">Densidad</span></div><div class="impact-indicator">9</div></div></div><div class="timeline-event" style="animation-delay: 3.6s"><div class="date-badge">1971</div><div class="event-content"><h3 class="event-title">Intel 4004</h3><p class="event-subtitle">Intel Corporation | Ted Hoff</p><p class="event-description">Primer microprocesador comercial completo en un solo chip. Inicio de la era del procesamiento personal y base tecnológica de toda la computación moderna. </p><div class="specs-section"><h4 class="specs-title">Especificaciones 4004</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>4-bit PMOS</li><li><strong>Frecuencia:</strong>740 kHz</li><li><strong>Transistores:</strong>2,
+300 (proceso 10μm)</li><li><strong>Instrucciones:</strong>46 instrucciones básicas</li><li><strong>Aplicación original:</strong>Calculadoras Busicom</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 20%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Microprocesador</span><span class="innovation-tag">Single Chip CPU</span></div><div class="impact-indicator">10</div></div></div></div><div class="generation-transition"><div class="generation-badge">Cuarta Generación</div></div><!-- CUARTA GENERACIÓN --><div class="era-section"><div class="era-header"><h2 class="era-title">CUARTA GENERACIÓN</h2><p class="era-subtitle">1972 - 1980 | Microprocesadores y Computación Personal</p></div><div class="timeline-event" style="animation-delay: 3.8s"><div class="date-badge">1972</div><div class="event-content"><h3 class="event-title">Intel 8008</h3><p class="event-subtitle">Intel Corporation</p><p class="event-description">Primer microprocesador de 8-bit,
+evolucionó del 4004. Estableció la arquitectura que influenciaría el desarrollo de microprocesadores durante la década. </p><div class="specs-section"><h4 class="specs-title">Mejoras sobre el 4004</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>8-bit</li><li><strong>Frecuencia:</strong>800 kHz</li><li><strong>Direccionamiento:</strong>16KB de memoria</li><li><strong>Instrucciones:</strong>48 instrucciones</li><li><strong>Aplicaciones:</strong>Terminales y control industrial</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 25%;"></div></div><div class="innovation-tags"><span class="innovation-tag">8-bit Architecture</span></div><div class="impact-indicator">7</div></div></div><div class="timeline-event" style="animation-delay: 4.0s"><div class="date-badge">1974</div><div class="event-content"><h3 class="event-title">Intel 8080</h3><p class="event-subtitle">Intel Corporation</p><p class="event-description">Microprocesador que hizo viable la computación personal. Base del Altair 8800 y otros sistemas pioneros. Estableció Intel como líder en microprocesadores. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Avanzadas</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>8-bit mejorada</li><li><strong>Frecuencia:</strong>2 MHz</li><li><strong>Direccionamiento:</strong>64KB de memoria</li><li><strong>Instrucciones:</strong>78 instrucciones completas</li><li><strong>Tecnología:</strong>NMOS 6μm</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 35%;"></div></div><div class="innovation-tags"><span class="innovation-tag">PC Foundation</span></div><div class="impact-indicator">8</div></div></div><div class="timeline-event" style="animation-delay: 4.2s"><div class="date-badge">1975</div><div class="event-content"><h3 class="event-title">Altair 8800</h3><p class="event-subtitle">MITS (Ed Roberts)</p><p class="event-description">Primera computadora personal comercialmente exitosa. Catalizó el nacimiento de la industria de PC y inspiró a Gates y Allen a fundar Microsoft. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Altair</h4><ul class="specs-list"><li><strong>CPU:</strong>Intel 8080 (2 MHz)</li><li><strong>RAM:</strong>256 bytes (expandible a 64KB)</li><li><strong>Interface:</strong>Panel frontal con switches</li><li><strong>Precio:</strong>$439 USD en kit de ensamblaje</li><li><strong>Ventas:</strong>5,
+000 unidades primer año</li></ul></div><div class="innovation-tags"><span class="innovation-tag">PC Revolution</span><span class="innovation-tag">Kit Computer</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 4.4s"><div class="date-badge">1976</div><div class="event-content"><h3 class="event-title">Apple I</h3><p class="event-subtitle">Steve Wozniak & Steve Jobs</p><p class="event-description">Primera computadora Apple,
+diseñada por Wozniak y comercializada por Jobs. Introdujo conceptos de diseño que definirían la filosofía de Apple. </p><div class="specs-section"><h4 class="specs-title">Innovaciones Apple I</h4><ul class="specs-list"><li><strong>CPU:</strong>MOS Technology 6502 (1 MHz)</li><li><strong>RAM:</strong>4KB estándar (expandible a 8KB)</li><li><strong>Display:</strong>Interface de video integrada</li><li><strong>Precio:</strong>$666.66 USD</li><li><strong>Producción:</strong>~200 unidades hechas a mano</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Diseño Integrado</span><span class="innovation-tag">Video Interface</span></div><div class="impact-indicator">8</div></div></div><div class="timeline-event" style="animation-delay: 4.6s"><div class="date-badge">1977</div><div class="event-content"><h3 class="event-title">Apple II</h3><p class="event-subtitle">Apple Computer Inc.</p><p class="event-description">Computadora personal que estableció estándares de usabilidad,
+expandibilidad y diseño industrial. Primera PC verdaderamente masiva y exitosa comercialmente. </p><div class="specs-section"><h4 class="specs-title">Especificaciones Apple II</h4><ul class="specs-list"><li><strong>CPU:</strong>MOS Technology 6502 (1.023 MHz)</li><li><strong>RAM:</strong>4KB-48KB expandible</li><li><strong>Gráficos:</strong>Color hi-res 280×192</li><li><strong>Sonido:</strong>Speaker integrado</li><li><strong>Expansión:</strong>8 ranuras Apple Bus</li><li><strong>Almacenamiento:</strong>Cassette/Disk II</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 40%;"></div></div><div class="innovation-tags"><span class="innovation-tag">User Friendly</span><span class="innovation-tag">Color Graphics</span><span class="innovation-tag">Mass Market</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 4.8s"><div class="date-badge">1978</div><div class="event-content"><h3 class="event-title">Intel 8086</h3><p class="event-subtitle">Intel Corporation</p><p class="event-description">Primer procesador de 16-bit de Intel. Estableció la arquitectura x86 que domina la computación personal hasta hoy. Base de toda la línea de procesadores Intel. </p><div class="specs-section"><h4 class="specs-title">Arquitectura x86</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>16-bit con registros extendidos</li><li><strong>Frecuencia:</strong>5-10 MHz</li><li><strong>Direccionamiento:</strong>1MB de memoria</li><li><strong>Instrucciones:</strong>Set compatible con 8080</li><li><strong>Segmentación:</strong>Modelo de memoria segmentada</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 50%;"></div></div><div class="innovation-tags"><span class="innovation-tag">x86 Architecture</span><span class="innovation-tag">16-bit Processing</span></div><div class="impact-indicator">9</div></div></div><div class="timeline-event" style="animation-delay: 5.0s"><div class="date-badge">1979</div><div class="event-content"><h3 class="event-title">VisiCalc</h3><p class="event-subtitle">Software Arts (Bricklin & Frankston)</p><p class="event-description">Primera hoja de cálculo electrónica. Considerada la primera "killer application" que justificó por sí sola la compra de computadoras personales para uso comercial. </p><div class="specs-section"><h4 class="specs-title">Características VisiCalc</h4><ul class="specs-list"><li><strong>Plataforma:</strong>Apple II (originalmente)</li><li><strong>Capacidad:</strong>63 columnas × 254 filas</li><li><strong>Memoria:</strong>32KB RAM requeridos</li><li><strong>Precio:</strong>$100 USD</li><li><strong>Ventas:</strong>700,
+000 copias primera década</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Killer App</span><span class="innovation-tag">Business Software</span></div><div class="impact-indicator">9</div></div></div></div><div class="generation-transition"><div class="generation-badge">Quinta Generación</div></div><!-- QUINTA GENERACIÓN --><div class="era-section"><div class="era-header"><h2 class="era-title">QUINTA GENERACIÓN</h2><p class="era-subtitle">1980 - 1990 | VLSI e Integración Masiva</p></div><div class="timeline-event" style="animation-delay: 5.2s"><div class="date-badge">1981</div><div class="event-content"><h3 class="event-title">IBM PC</h3><p class="event-subtitle">IBM Corporation</p><p class="event-description">Establecimiento del estándar de facto para computadoras personales. Su arquitectura abierta y endorsement corporativo legitimaron la PC en el mundo empresarial. </p><div class="specs-section"><h4 class="specs-title">Especificaciones IBM PC</h4><ul class="specs-list"><li><strong>CPU:</strong>Intel 8088 (4.77 MHz, 16-bit interno)</li><li><strong>RAM:</strong>16KB-256KB expandible</li><li><strong>OS:</strong>PC-DOS 1.0 (Microsoft)</li><li><strong>Arquitectura:</strong>Bus ISA de 8-bit</li><li><strong>Precio:</strong>$1,
+565 USD configuración básica</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 55%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Estándar de Industria</span><span class="innovation-tag">Arquitectura Abierta</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 5.4s"><div class="date-badge">1982</div><div class="event-content"><h3 class="event-title">Commodore 64</h3><p class="event-subtitle">Commodore International</p><p class="event-description">Computadora personal más vendida de la historia. Combinó precio accesible,
+capacidades multimedia avanzadas y una biblioteca masiva de software y juegos. </p><div class="specs-section"><h4 class="specs-title">Especificaciones C64</h4><ul class="specs-list"><li><strong>CPU:</strong>MOS Technology 6510 (1.023 MHz)</li><li><strong>RAM:</strong>64KB (38KB disponibles para usuario)</li><li><strong>Gráficos:</strong>VIC-II chip,
+16 colores</li><li><strong>Sonido:</strong>SID chip,
+3 canales</li><li><strong>Ventas totales:</strong>12-17 millones de unidades</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Best Seller</span><span class="innovation-tag">Gaming Platform</span></div><div class="impact-indicator">9</div></div></div><div class="timeline-event" style="animation-delay: 5.6s"><div class="date-badge">1984</div><div class="event-content"><h3 class="event-title">Apple Macintosh</h3><p class="event-subtitle">Apple Computer Inc.</p><p class="event-description">Popularización masiva de la interfaz gráfica de usuario y el mouse. Revolucionó la interacción humano-computadora e introdujo conceptos de diseño que perduran hoy. </p><div class="specs-section"><h4 class="specs-title">Innovaciones Macintosh</h4><ul class="specs-list"><li><strong>CPU:</strong>Motorola 68000 (7.8336 MHz)</li><li><strong>RAM:</strong>128KB (expandible a 512KB)</li><li><strong>Display:</strong>512×342 píxeles monocromático</li><li><strong>GUI:</strong>Desktop metaphor completo</li><li><strong>Mouse:</strong>Dispositivo estándar incluido</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 60%;"></div></div><div class="innovation-tags"><span class="innovation-tag">GUI Revolution</span><span class="innovation-tag">Mouse Interface</span><span class="innovation-tag">WYSIWYG</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 5.8s"><div class="date-badge">1985</div><div class="event-content"><h3 class="event-title">Windows 1.0</h3><p class="event-subtitle">Microsoft Corporation</p><p class="event-description">Primera versión del sistema operativo gráfico de Microsoft. Inicio de la dominancia de Microsoft en sistemas operativos para PC,
+aunque inicialmente con adopción limitada. </p><div class="specs-section"><h4 class="specs-title">Características Windows 1.0</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>Environment sobre MS-DOS</li><li><strong>Interface:</strong>Ventanas en mosaico (no superpuestas)</li><li><strong>Requerimientos:</strong>256KB RAM,
+dos floppies</li><li><strong>Aplicaciones:</strong>Paint,
+Calculator,
+Clock</li><li><strong>Precio:</strong>$100 USD</li></ul></div><div class="innovation-tags"><span class="innovation-tag">GUI para DOS</span><span class="innovation-tag">Microsoft Ecosystem</span></div><div class="impact-indicator">7</div></div></div><div class="timeline-event" style="animation-delay: 6.0s"><div class="date-badge">1985</div><div class="event-content"><h3 class="event-title">Intel 386 DX</h3><p class="event-subtitle">Intel Corporation</p><p class="event-description">Primer procesador x86 de 32-bit. Introdujo arquitectura que soportaba multitasking real,
+memoria virtual y compatibilidad total con software de 16-bit. </p><div class="specs-section"><h4 class="specs-title">Arquitectura 386</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>32-bit completa x86</li><li><strong>Frecuencia:</strong>16-40 MHz</li><li><strong>Memoria:</strong>4GB direccionables</li><li><strong>Características:</strong>Modo protegido,
+paging</li><li><strong>Compatibilidad:</strong>Backward compatible con 8086/286</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 70%;"></div></div><div class="innovation-tags"><span class="innovation-tag">32-bit Architecture</span><span class="innovation-tag">Protected Mode</span></div><div class="impact-indicator">9</div></div></div><div class="timeline-event" style="animation-delay: 6.2s"><div class="date-badge">1989</div><div class="event-content"><h3 class="event-title">World Wide Web</h3><p class="event-subtitle">Tim Berners-Lee | CERN</p><p class="event-description">Invención del World Wide Web. Propuesta de un sistema de información global basado en hipertexto que transformaría fundamentalmente la comunicación humana. </p><div class="specs-section"><h4 class="specs-title">Componentes WWW</h4><ul class="specs-list"><li><strong>HTML:</strong>HyperText Markup Language</li><li><strong>HTTP:</strong>HyperText Transfer Protocol</li><li><strong>URL:</strong>Uniform Resource Locator</li><li><strong>Primer servidor:</strong>info.cern.ch</li><li><strong>Primer navegador:</strong>WorldWideWeb (luego Nexus)</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Hipertexto Global</span><span class="innovation-tag">Internet Revolution</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 6.4s"><div class="date-badge">1990</div><div class="event-content"><h3 class="event-title">Windows 3.0</h3><p class="event-subtitle">Microsoft Corporation</p><p class="event-description">Primera versión exitosa de Windows. Estableció Microsoft como competidor real de Apple en interfaces gráficas y marcó el inicio de la era GUI en PC. </p><div class="specs-section"><h4 class="specs-title">Mejoras Windows 3.0</h4><ul class="specs-list"><li><strong>Interface:</strong>Ventanas superpuestas mejoradas</li><li><strong>Memoria:</strong>Soporte para modo protegido 386</li><li><strong>Multitasking:</strong>Multitarea cooperativa</li><li><strong>Aplicaciones:</strong>Program Manager,
+File Manager</li><li><strong>Ventas:</strong>10 millones de copias en 2 años</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 75%;"></div></div><div class="innovation-tags"><span class="innovation-tag">GUI Success</span><span class="innovation-tag">Mainstream Windows</span></div><div class="impact-indicator">9</div></div></div></div><div class="generation-transition"><div class="generation-badge">Era Moderna</div></div><!-- ERA MODERNA TEMPRANA --><div class="era-section"><div class="era-header"><h2 class="era-title">ERA MODERNA TEMPRANA</h2><p class="era-subtitle">1990 - 2000 | Internet,
+Multimedia y Explosión Digital</p></div><div class="timeline-event" style="animation-delay: 6.6s"><div class="date-badge">1991</div><div class="event-content"><h3 class="event-title">Linux Kernel</h3><p class="event-subtitle">Linus Torvalds | Universidad de Helsinki</p><p class="event-description">Nacimiento del kernel Linux. Inicio del movimiento de software libre que competiría con sistemas propietarios y se convertiría en base de internet moderno. </p><div class="specs-section"><h4 class="specs-title">Linux 0.01 Características</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>i386 específicamente</li><li><strong>Tamaño:</strong>10,
+239 líneas de código</li><li><strong>Licencia:</strong>GPL (desde 0.12)</li><li><strong>Filosofía:</strong>Open Source colaborativo</li><li><strong>Inspiración:</strong>UNIX/MINIX</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Open Source</span><span class="innovation-tag">Colaborativo</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 6.8s"><div class="date-badge">1993</div><div class="event-content"><h3 class="event-title">Intel Pentium</h3><p class="event-subtitle">Intel Corporation</p><p class="event-description">Primer procesador de la familia Pentium. Introdujo arquitectura superescalar y estableció Intel como líder indiscutible en procesadores para PC durante los 90s. </p><div class="specs-section"><h4 class="specs-title">Arquitectura Pentium</h4><ul class="specs-list"><li><strong>Arquitectura:</strong>x86 superescalar</li><li><strong>Frecuencia:</strong>60-200 MHz</li><li><strong>Pipelines:</strong>Dual pipelines (U y V)</li><li><strong>Caché:</strong>8KB L1+256KB L2</li><li><strong>Transistores:</strong>3.1 millones</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 80%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Superescalar</span><span class="innovation-tag">Multimedia</span></div><div class="impact-indicator">8</div></div></div><div class="timeline-event" style="animation-delay: 7.0s"><div class="date-badge">1995</div><div class="event-content"><h3 class="event-title">Windows 95</h3><p class="event-subtitle">Microsoft Corporation</p><p class="event-description">Revolución en sistemas operativos para PC. Introdujo el botón Start,
+multitasking preemptivo y soporte nativo para internet,
+definiendo la experiencia PC moderna. </p><div class="specs-section"><h4 class="specs-title">Innovaciones Windows 95</h4><ul class="specs-list"><li><strong>Interface:</strong>Start Button y Taskbar</li><li><strong>Multitasking:</strong>Preemptivo de 32-bit</li><li><strong>Networking:</strong>TCP/IP nativo,
+Dial-Up</li><li><strong>Multimedia:</strong>DirectX,
+Plug and Play</li><li><strong>Lanzamiento:</strong>$300M marketing campaign</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Start Menu</span><span class="innovation-tag">Internet Ready</span><span class="innovation-tag">Plug & Play</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 7.2s"><div class="date-badge">1998</div><div class="event-content"><h3 class="event-title">Google</h3><p class="event-subtitle">Larry Page & Sergey Brin</p><p class="event-description">Fundación de Google con el algoritmo PageRank. Revolucionó la búsqueda web y se convirtió en una de las empresas tecnológicas más influyentes del mundo. </p><div class="specs-section"><h4 class="specs-title">Innovación PageRank</h4><ul class="specs-list"><li><strong>Algoritmo:</strong>PageRank basado en enlaces</li><li><strong>Base de datos:</strong>25 millones de páginas iniciales</li><li><strong>Servidor:</strong>Stanford University</li><li><strong>Financiamiento:</strong>$25M inversión inicial</li><li><strong>Misión:</strong>"Organizar información mundial"</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Search Revolution</span><span class="innovation-tag">PageRank</span></div><div class="impact-indicator">10</div></div></div><div class="timeline-event" style="animation-delay: 7.4s"><div class="date-badge">1999</div><div class="event-content"><h3 class="event-title">WiFi (802.11)</h3><p class="event-subtitle">IEEE Standards Association</p><p class="event-description">Estándar IEEE 802.11 para redes inalámbricas. Liberó las computadoras de cables ethernet y estableció las bases para la conectividad ubicua moderna. </p><div class="specs-section"><h4 class="specs-title">Especificaciones 802.11</h4><ul class="specs-list"><li><strong>Velocidad:</strong>2 Mbps inicial (802.11)</li><li><strong>Frecuencia:</strong>2.4 GHz ISM band</li><li><strong>Alcance:</strong>20 metros indoor</li><li><strong>Modulación:</strong>FHSS y DSSS</li><li><strong>Evolución:</strong>11 Mbps (802.11b en 1999)</li></ul></div><div class="innovation-tags"><span class="innovation-tag">Wireless Revolution</span><span class="innovation-tag">Mobility</span></div><div class="impact-indicator">9</div></div></div></div><div class="generation-transition"><div class="generation-badge">Nueva Era Digital</div></div><!-- CONCLUSIÓN VISUAL --><div class="era-section"><div class="era-header"><h2 class="era-title">LEGADO Y PROYECCIÓN</h2><p class="era-subtitle">El Futuro de la Computación</p></div><div class="timeline-event" style="animation-delay: 7.6s"><div class="date-badge">2025</div><div class="event-content"><h3 class="event-title">Era Actual</h3><p class="event-subtitle">Computación Ubicua e Inteligencia Artificial</p><p class="event-description">Vivimos en la era de la computación ubicua,
+donde dispositivos inteligentes están integrados en cada aspecto de la vida. La evolución continúa hacia computación cuántica,
+IA avanzada e interfaces neurales. </p><div class="specs-section"><h4 class="specs-title">Tendencias Actuales</h4><ul class="specs-list"><li><strong>Procesadores:</strong>Múltiples núcleos,
+3nm,
+billones de transistores</li><li><strong>IA:</strong>Machine Learning ubicuo</li><li><strong>Conectividad:</strong>5G,
+IoT,
+edge computing</li><li><strong>Interfaces:</strong>Voz,
+táctil,
+realidad aumentada</li><li><strong>Futuro:</strong>Computación cuántica,
+interfaces neurales</li></ul></div><div class="performance-chart"><div class="performance-bar" style="width: 100%;"></div></div><div class="innovation-tags"><span class="innovation-tag">Ubicua</span><span class="innovation-tag">Inteligente</span><span class="innovation-tag">Cuántica</span></div><div class="impact-indicator">∞</div></div></div></div></div><div style="text-align: center; margin-top: 80px; padding: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; backdrop-filter: blur(20px);"><h3 style="font-size: 2em; margin-bottom: 20px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">"La Evolución Continúa..." </h3><p style="font-size: 1.2em; color: #b8c5d6; max-width: 800px; margin: 0 auto; line-height: 1.6;">Desde las ruedas dentadas de Pascal hasta la inteligencia artificial moderna,
+cada innovación ha construido sobre los cimientos de la anterior. La historia de las computadoras es la historia de la humanidad expandiendo sus capacidades mentales. </p></div></div><script> // Animación de aparición secuencial
+const observer=new IntersectionObserver((entries)=> {
+    entries.forEach(entry=> {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState='running';
+        }
+    }
+    );
+}
+
+);
+document.querySelectorAll('.timeline-event').forEach(event=> {
+    observer.observe(event);
+}
+
+);
+// Efecto de scroll suave para el timeline
+const timelineLine=document.querySelector('.timeline-line');
+let ticking=false;
+function updateTimeline() {
+    const scrolled=window.pageYOffset;
+    const rate=scrolled * -0.5;
+    if (timelineLine) {
+        timelineLine.style.transform=`translateX(-50%) translateY($ {
+            rate * 0.1
+        }
+        px)`;
+    }
+    ticking=false;
+}
+
+function requestTick() {
+    if (!ticking) {
+        requestAnimationFrame(updateTimeline);
+        ticking=true;
+    }
+}
+
+window.addEventListener('scroll', requestTick);
+// Efecto hover para tarjetas
+document.querySelectorAll('.event-content').forEach(card=> {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform='translateY(-8px) scale(1.02)';
+    }
+    );
+    card.addEventListener('mouseleave', function() {
+        this.style.transform='translateY(0) scale(1)';
+    }
+    );
+}
+
+);
+</script></body></html>
